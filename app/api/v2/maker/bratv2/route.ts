@@ -18,9 +18,9 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const text = searchParams.get("text");
+  const textt = searchParams.get("text");
 
-  if (!text) {
+  if (!textt) {
     return NextResponse.json(
       {
         status: false,
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const cacheKey = `bratv2-${text}`;
+    const cacheKey = `bratv2-${textt}`;
     const cachedResponse = memoryCache.get<ArrayBuffer>(cacheKey);
 
     if (cachedResponse) {
@@ -49,7 +49,7 @@ export async function GET(request: Request) {
     }
 
     // Fetch ke API eksternal dan clone response agar bisa dibaca ulang
-    const response = await fetch(`https://api.im-rerezz.xyz/api/sticker/bratv2?text=${encodeURIComponent(text)}`);
+    const response = await fetch(`https://api.im-rerezz.xyz/api/sticker/bratv2?text=${encodeURIComponent(textt)}`);
     if (!response.ok) {
       throw new Error(`External API returned status ${response.status}`);
     }
