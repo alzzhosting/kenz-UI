@@ -33,7 +33,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const cacheKey = `brat-${text}`;
+    const cacheKey = `bratv2-${text}`;
     const cachedResponse = memoryCache.get<ArrayBuffer>(cacheKey);
 
     if (cachedResponse) {
@@ -48,17 +48,17 @@ export async function GET(request: Request) {
       });
     }
 
-    // Fetch dan langsung buffer tanpa membaca ulang
-    const response = await fetch(`https://api.im-rerezz.xyz/api/sticker/bratv2?text=${encodeURIComponent(text)}`, {
-      method: "GET",
-    });
-
+    // Fetch ke API eksternal dan clone response agar bisa dibaca ulang
+    const response = await fetch(`https://api.im-rerezz.xyz/api/sticker/bratv2?text=${encodeURIComponent(text)}`);
     if (!response.ok) {
       throw new Error(`External API returned status ${response.status}`);
     }
 
-    // Buffer response sekali aja
-    const imageBuffer = await response.arrayBuffer();
+    // Clone response agar body bisa dibaca ulang
+    const responseClone = response.clone();
+
+    // Ambil arrayBuffer dari clone agar tidak terjadi "body stream already read"
+    const imageBuffer = await responseClone.arrayBuffer();
 
     // Cache hasilnya
     memoryCache.set(cacheKey, imageBuffer, CACHE_TTL);
