@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import { siteConfig } from "@/lib/config";
 import { memoryCache } from "@/lib/cache";
 
-// Cache TTL in seconds
-const CACHE_TTL = 3600; // 1 hour
+// TTL cache dalam detik (1 jam)
+const CACHE_TTL = 3600;
 
 export async function GET(request: Request) {
+  // Cek mode maintenance
   if (siteConfig.maintenance.enabled) {
     return NextResponse.json(
       {
@@ -34,10 +35,15 @@ export async function GET(request: Request) {
 
   try {
     const cacheKey = `brat-${text}`;
-    const cachedResponse = memoryCache.get<ArrayBuffer>(cacheKey);
+    const cachedResponse = memoryCache.get<Uint8Array>(cacheKey);
 
     if (cachedResponse) {
-      return new NextResponse(Buffer.from(cachedResponse), {
+      return new NextResponse(new ReadableStream({
+        start(controller) {
+          controller.enqueue(cachedResponse);
+          controller.close();
+        }
+      }), {
         headers: {
           "Content-Type": "image/png",
           "Cache-Control": "public, max-age=1800, s-maxage=3600",
@@ -48,20 +54,25 @@ export async function GET(request: Request) {
       });
     }
 
-    // Fetch ke API eksternal
+    // Fetch API eksternal
     const response = await fetch(`https://api.im-rerezz.xyz/api/sticker/bratv2?text=${encodeURIComponent(text)}`);
 
     if (!response.ok) {
       throw new Error(`External API returned status ${response.status}`);
     }
 
-    // Ambil buffer langsung
-    const imageBuffer = await response.arrayBuffer();
+    // Ambil buffer tanpa membaca ulang body stream
+    const imageBuffer = new Uint8Array(await response.arrayBuffer());
 
-    // Cache hasilnya
+    // Simpan di cache
     memoryCache.set(cacheKey, imageBuffer, CACHE_TTL);
 
-    return new NextResponse(Buffer.from(imageBuffer), {
+    return new NextResponse(new ReadableStream({
+      start(controller) {
+        controller.enqueue(imageBuffer);
+        controller.close();
+      }
+    }), {
       headers: {
         "Content-Type": "image/png",
         "Cache-Control": "public, max-age=1800, s-maxage=3600",
