@@ -191,7 +191,7 @@ export const siteConfig = {
         },
         {
           method: "GET",
-          path: "/ai/LenaAI",
+          path: "/ai/lena",
           description: "Generate AI responses using LenaAI",
           mediaType: "application/json",
           parameters: [
