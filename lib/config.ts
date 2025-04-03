@@ -191,6 +191,20 @@ export const siteConfig = {
         },
         {
           method: "GET",
+          path: "/ai/LenaAI",
+          description: "Generate AI responses using LenaAI",
+          mediaType: "application/json",
+          parameters: [
+            { name: "text", 
+              type: "string", 
+              required: true, 
+              description: "The text prompt to send to the AI"
+            },
+          ],
+          versions: ["v2"],
+        }, 
+        {
+          method: "GET",
           path: "/ai/deepseek-r1",
           description: "Generate AI responses using DeepSeek-R1",
           mediaType: "application/json",
