@@ -20,7 +20,7 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url)
-  const qrisData = searchParams.get("q")
+  const qrisData = searchParams.get("UrlQris")
   const amount = searchParams.get("amount")
 
   if (!qrisData || !amount) {
