@@ -390,7 +390,7 @@ export const siteConfig = {
         parameters: [
           { name: "text", type: "string", required: true, description: "YouTube video URL" },
         ], 
-        versions: ["v2], 
+        versions: ["v2"], 
       }, 
       ], 
     }, 
