@@ -30,23 +30,23 @@ export async function GET(request: Request) {
       )}&amount=${amount}&gradient=false`
     )
 
-    const json = await res.json()
+    const contentType = res.headers.get("content-type") || ""
 
-    if (!json || !json.image) {
-      throw new Error("Gagal mendapatkan URL QRIS dari API")
+    if (contentType.includes("image")) {
+      const buffer = await res.arrayBuffer()
+      return new NextResponse(buffer, {
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "public, max-age=1800",
+          "X-Creator": siteConfig.api.creator,
+        },
+      })
+    } else if (contentType.includes("application/json")) {
+      const json = await res.json()
+      return NextResponse.json(json, { status: 200 })
+    } else {
+      throw new Error("Respon tidak dikenali")
     }
-
-    // Ambil gambar QR dari URL
-    const imgRes = await fetch(json.image)
-    const imgBuffer = await imgRes.arrayBuffer()
-
-    return new NextResponse(imgBuffer, {
-      headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=1800",
-        "X-Creator": siteConfig.api.creator,
-      },
-    })
   } catch (error) {
     return NextResponse.json(
       {
