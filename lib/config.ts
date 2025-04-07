@@ -384,10 +384,12 @@ export const siteConfig = {
     endpoints: [
       {
         method: "GET", 
-        path: "/createpayment", 
+        path: "/create/createpayment", 
         description: "Create Qris For Business", 
         mediaType: "image/png", 
-        parameters: [], 
+        parameters: [
+          { name: "text", type: "string", required: true, description: "YouTube video URL" },
+        ], 
         versions: ["v2], 
       }, 
       ], 
