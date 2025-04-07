@@ -28,7 +28,7 @@ export async function GET(request: Request) {
       {
         status: false,
         creator: siteConfig.api.creator,
-        error: "Parameter 'q' dan 'amount' wajib diisi",
+        error: "Parameter 'UrlQris' dan 'amount' wajib diisi",
       },
       {
         status: 400,
