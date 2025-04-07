@@ -388,7 +388,8 @@ export const siteConfig = {
         description: "Create Qris For Business", 
         mediaType: "image/png", 
         parameters: [
-          { name: "text", type: "string", required: true, description: "YouTube video URL" },
+          { name: "text", type: "string", required: true, description: "URLQris" },
+          { name: "text", type: "string", required: true, description: "AmountNya" },
         ], 
         versions: ["v2"], 
       }, 
