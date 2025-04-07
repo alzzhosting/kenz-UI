@@ -379,6 +379,20 @@ export const siteConfig = {
       ],
     },
     {
+    name: "Create Payment", 
+    color: "red", 
+    endpoints: [
+      {
+        method: "GET", 
+        path: "/createpayment", 
+        description: "Create Qris For Business", 
+        mediaType: "image/png", 
+        parameters: [], 
+        versions: ["v2], 
+      }, 
+      ], 
+    }, 
+    {
     name: "Server",
     color: "red",
     endpoints: [
