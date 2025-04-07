@@ -28,7 +28,7 @@ export async function GET(request: Request) {
       {
         status: false,
         creator: siteConfig.api.creator,
-        error: "Parameter 'UrlQris' dan 'amount' wajib diisi",
+        error: "Parameter 'q' dan 'amount' wajib diisi",
       },
       {
         status: 400,
@@ -37,17 +37,22 @@ export async function GET(request: Request) {
   }
 
   try {
-    const url = `https://api.kenshiro.cfd/api/payment/createqris?q=${encodeURIComponent(
+    const apiUrl = `https://api.kenshiro.cfd/api/payment/createqris?q=${encodeURIComponent(
       qrisData
     )}&amount=${amount}&gradient=false`
 
-    const response = await fetch(url)
-    const result = await response.json()
+    const imageRes = await fetch(apiUrl)
 
-    return NextResponse.json({
-      status: true,
-      creator: siteConfig.api.creator,
-      data: result,
+    if (!imageRes.ok) throw new Error("Gagal mengambil gambar QRIS")
+
+    const imageBuffer = await imageRes.arrayBuffer()
+
+    return new NextResponse(imageBuffer, {
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=1800",
+        "X-Creator": siteConfig.api.creator,
+      },
     })
   } catch (error) {
     return NextResponse.json(
