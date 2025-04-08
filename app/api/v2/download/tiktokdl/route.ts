@@ -13,7 +13,7 @@ if (!videoUrl) { return new NextResponse( JSON.stringify( { status: false, creat
 try { // Cek cache terlebih dahulu const cacheKey = tiktok-${videoUrl}; const cachedResponse = memoryCache.get(cacheKey); if (cachedResponse) { return new NextResponse(cachedResponse, { headers: { "Content-Type": "video/mp4", "Cache-Control": "public, max-age=1800, s-maxage=3600", "X-Creator": siteConfig.api.creator, "X-Version": "v1", "X-Cached": "true", }, }); }
 
 // Fetch data dari downloader pihak ketiga
-const response = await fetch(`https://api.tikmate.app/api/lookup?url=${encodeURIComponent(videoUrl)}`);
+const response = await fetch(`https://api.kenshiro.cfd/api/downloader/tiktok?url=${encodeURIComponent(videoUrl)}`);
 const data = await response.json();
 
 if (!data || !data.videoUrl) {
