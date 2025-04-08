@@ -256,6 +256,40 @@ export const siteConfig = {
       ],
     },
     {
+  name: "Stalking",
+  color: "purple",
+  endpoints: [
+    {
+      method: "GET",
+      path: "/stalking/ff",
+      description: "Stalking akun Free Fire berdasarkan ID",
+      parameters: [
+        { name: "id", type: "string", required: true, description: "ID FF" }
+      ],
+      versions: ["v2"],
+    }, 
+    {
+      method: "GET",
+      path: "/stalking/mlbb",
+      description: "Stalking akun Mobile Legends berdasarkan ID dan server",
+      parameters: [
+        { name: "id", type: "string", required: true, description: "ID MLBB" },
+        { name: "server", type: "string", required: true, description: "Server ID MLBB" }
+      ],
+      versions: ["v2"],
+    }, 
+    {
+      method: "GET",
+      path: "/stalking/pubg",
+      description: "Stalking akun PUBG berdasarkan ID",
+      parameters: [
+        { name: "id", type: "string", required: true, description: "ID PUBG" }
+      ],
+      versions: ["v2"],
+    }
+  ]
+}, 
+    {
   name: "Download",
   color: "red",
   endpoints: [
