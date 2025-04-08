@@ -379,13 +379,13 @@ export const siteConfig = {
       ],
     },
     {
-    name: "Payment", 
+    name: "Payment Orkut", 
     color: "red", 
     endpoints: [
       {
         method: "GET", 
         path: "/payment/createpayment", 
-        description: "Create Qris For Business", 
+        description: "Create Qris Orkut", 
         mediaType: "image/png", 
         parameters: [
           { name: "UrlQris", type: "string", required: true, description: "URLQris" },
