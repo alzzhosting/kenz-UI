@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const res = await fetch(`https://fgsi1-restapi.hf.space/api/downloader/youtube/v2?url=${encodeURIComponent(url)}&type=mp4`)
+    const res = await axios.get(`https://fgsi1-restapi.hf.space/api/downloader/youtube/v2?url=${encodeURIComponent(url)}&type=mp4`)
     const result = await res.json()
 
     if (!result.status) {
