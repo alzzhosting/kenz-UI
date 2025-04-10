@@ -304,6 +304,19 @@ export const siteConfig = {
       versions: ["v1", "v2"],
     },
     {
+        method: "POST",
+        path: "/download/ytmp4",
+        description: "Download YouTube video",
+        mediaType: "video/mp4",
+        parameters: [
+          { name: "url", 
+            type: "string",
+            required: true, 
+            description: "YouTube video URL" },
+        ],
+        versions: ["v2"],
+    },
+    {
         method: "GET",
         path: "/download/tiktokdl",
         description: "Download TikTok video",
